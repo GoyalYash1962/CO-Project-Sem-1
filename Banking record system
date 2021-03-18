@@ -1,0 +1,229 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+class account_query
+{
+public:
+    void print_data();
+    void update_data();
+    void enter_data();
+    void show_all();
+    void delete_some();
+};
+void account_query::delete_some()
+{
+    cout<<"Enter the account number to be deleted=";
+    string a,s;
+    cin>>a;
+    ifstream file("New.txt");
+    ofstream files("New Text.txt");
+    files<<endl;
+    while(1)
+    {
+        file>>s;
+        if (file.eof()==1)
+            break;
+        if (s==a)
+        {
+            file>>s;
+            file>>s;
+            file>>s;
+        }
+        else
+        {
+            files<<endl<<s<<" ";
+            file>>s;
+            files<<s<<" ";
+            file>>s;
+            files<<s<<" ";
+            file>>s;
+            files<<s<<" ";
+        }
+    }
+    file.close();
+    files.close();
+    ifstream filess("New Text.txt");
+    ofstream filesss("New.txt");
+    while(1)
+    {
+        filess>>s;
+        if (filess.eof()==1)
+            break;
+        filesss<<endl<<s<<" ";
+        filess>>s;
+        filesss<<s<<" ";
+        filess>>s;
+        filesss<<s<<" ";
+        filess>>s;
+        filesss<<s<<" ";
+    }
+
+}
+void account_query::show_all()
+{
+    string s;
+    ifstream file("New.txt");
+    while(1)
+    {
+        file>>s;
+        if (file.eof()==1)
+            break;
+        cout<<endl<<"Account Number="<<s;
+        file>>s;
+        cout<<endl<<"First Name    ="<<s;
+        file>>s;
+        cout<<endl<<"Last Name     ="<<s;
+        file>>s;
+        cout<<endl<<"Balance       ="<<s;
+        cout<<endl;
+    }
+}
+void account_query::enter_data()
+{
+    ofstream file("New.txt",ios::app);
+    string s;
+    cout<<"Enter the account number=";
+    cin>>s;
+    file<<endl<<s<<" ";
+    cout<<"Enter the first name=";
+    cin>>s;
+    file<<s<<" ";
+    cout<<"Enter the last name=";
+    cin>>s;
+    file<<s<<" ";
+    cout<<"Enter the balance=";
+    cin>>s;
+    file<<s;
+}
+void account_query::print_data()
+{
+    string s;
+    string a;
+    cout<<"Enter the account number=";
+    cin>>a;
+    ifstream files("New.txt");
+    while(files.eof()==0)
+    {
+        files>>s;
+    if (s==a)
+    {
+        files>>s;
+        cout<<"\nFirst Name of the account holder is   "<<s;
+        files>>s;
+        cout<<"\nLast name of the account holder is    "<<s;
+        files>>s;
+        cout<<"\nThe balance in the account is         "<<s<<endl;
+        break;
+    }
+    }
+    files.close();
+}
+void account_query::update_data()
+{
+    ifstream file("New.txt");
+    ofstream filess("New Text.txt");
+    string a,q[3];
+    string s;
+    int status;
+    cout<<"Enter the account number to be updated=";
+    cin>>s;
+    filess<<endl;
+    int i;
+    while (file.eof()==0)
+    {
+        file>>a;
+        if (a==s)
+    {
+        cout<<"Enter the first name=";
+        cin>>q[0];
+        cout<<"Enter the last name=";
+        cin>>q[1];
+        cout<<"Enter the balance of the account number=";
+        cin>>q[2];
+        filess<<a<<" ";
+        filess<<q[0]<<" ";
+        filess<<q[1]<<" ";
+        filess<<q[2]<<"\n";
+        file>>a;
+        file>>a;
+        file>>a;
+    }
+    else
+    {
+        filess<<a<<" ";
+        file>>a;
+        filess<<a<<" ";
+        file>>a;
+        filess<<a<<" ";
+        file>>a;
+        filess<<a<<"\n";
+    }
+    }
+    file.close();
+    filess.close();
+    ifstream filesss("New Text.txt");
+    ofstream filessss("New.txt");
+    while (1)
+    {
+    filesss>>s;
+    if (filesss.eof()==1)
+        break;
+    filessss<<endl<<s<<" ";
+
+    filesss>>s;
+    filessss<<s<<" ";
+
+    filesss>>s;
+    filessss<<s<<" ";
+
+    filesss>>s;
+    filessss<<s;
+    }
+
+}
+int main()
+{
+    int i=0;
+    account_query A;
+    int choice;
+    cout<<"***Account Information System***"<<endl;
+    while(i==0)
+    {
+        cout<<"Select one option below ";
+        cout<<"\n\t1-->Add record to file";
+        cout<<"\n\t2-->Search Record from file";
+        cout<<"\n\t3-->Update Record";
+        cout<<"\n\t4-->Show All Records";
+        cout<<"\n\t5-->Delete a record";
+        cout<<"\n\t6-->Quit";
+        cout<<"\nEnter your choice: ";
+        cin>>choice;
+        switch(choice)
+        {
+        case 1:
+            A.enter_data();
+            break;
+        case 2:
+            A.print_data();
+            break;
+        case 3:
+            A.update_data();
+            break;
+        case 4:
+            A.show_all();
+            break;
+        case 5:
+            A.delete_some();
+            break;
+        case 6:
+            {
+                i=1;
+                break;
+            }
+        default:
+            cout<<"\nEnter correct choice\n";
+        }
+    }
+    return 0;
+
+}
